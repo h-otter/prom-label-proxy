@@ -403,6 +403,10 @@ func (r *routes) matcher(w http.ResponseWriter, req *http.Request) {
 }
 
 func injectMatcher(q url.Values, matcher *labels.Matcher) error {
+	if !q.Has(matchersParam) {
+		return nil
+	}
+
 	matchers := q[matchersParam]
 	if len(matchers) == 0 {
 		q.Set(matchersParam, matchersToString(matcher))
